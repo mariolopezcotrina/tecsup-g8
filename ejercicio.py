@@ -39,16 +39,38 @@
 ## for
 ## if
 
-anio_actual = 2022
-anio_nacimiento = int(input('Ingresa el año en el que naciste: '))
+#anio_actual = 2022
+#anio_nacimiento = int(input('Ingresa el año en el que naciste: '))
+#
+#if anio_nacimiento < anio_actual:
+#    edad = anio_actual - anio_nacimiento
+#    for i in range(edad):
+#        edad_anterior = i + 1
+#        if (anio_nacimiento + edad_anterior) == anio_actual:
+#            print(f'Actualmente en el año {anio_actual} tienes {edad_anterior} años')
+#        else:
+#            print(f'En el año {anio_nacimiento + edad_anterior} tenias {edad_anterior} años')
+#else:
+#    print(f'El año de nacimiento no debe ser mayor a {anio_actual}')
+#
 
-if anio_nacimiento < anio_actual:
-    edad = anio_actual - anio_nacimiento
-    for i in range(edad):
-        edad_anterior = i + 1
-        if (anio_nacimiento + edad_anterior) == anio_actual:
-            print(f'Actualmente en el año {anio_actual} tienes {edad_anterior} años')
-        else:
-            print(f'En el año {anio_nacimiento + edad_anterior} tenias {edad_anterior} años')
-else:
-    print(f'El año de nacimiento no debe ser mayor a {anio_actual}')
+## Ejercicio 3
+## Crea un programa donde te pida ingresar: altura y ancho de un rectangulo
+## posterior a ello vamos a dibujar el rectangulo, tomando como signo *
+## altura: 5
+## ancho: 4
+# ****
+# ****
+# ****
+# ****
+# ****
+# for
+# range
+# print -> argumento end
+altura = int(input('Ingrese la altura: '))
+ancho = int(input('Ingrese el ancho: '))
+
+for _ in range(altura):
+    for _ in range(ancho):
+        print('*', end='')
+    print('')
