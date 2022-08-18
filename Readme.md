@@ -17,3 +17,26 @@
 ```bash
     deactivate
 ```
+
+## Instalamos flask
+- Para instalar flask se usa el comando:
+```bash
+    pip install flask
+```
+- Para ver las librerias instaladas se usa el comando:
+```bash
+    pip freeze
+```
+```bash
+    pip list
+```
+
+## Levantamos el servidor
+- Para levantar el servidor se usa el comando:
+```bash
+    flask run
+```
+- Para levantar el servidor en modo debug se usa el comando:
+```bash
+    flask run --debugger
+```
