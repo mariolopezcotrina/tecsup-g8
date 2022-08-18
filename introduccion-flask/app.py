@@ -76,3 +76,13 @@ def datosPorHeaders():
 def html():
     nombre = "Paolo"
     return render_template('index.html', nombre=nombre)
+
+@app.route("/subir-archivo", methods=['POST'])
+def subirArchivo():
+    if request.method == 'POST':
+        archivo = request.files['foto']
+        # archivo.save('/var/www/uploads/')
+        print(archivo)
+        return "success"
+    else:
+        return "Metodo inexistente"
