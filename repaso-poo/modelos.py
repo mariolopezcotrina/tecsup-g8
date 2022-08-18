@@ -9,4 +9,3 @@ class Modelo:
             "productId": self.id,
             "productName": self.nombre
         }
-
