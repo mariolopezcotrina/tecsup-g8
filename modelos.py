@@ -6,7 +6,7 @@ class Modelo:
 
     def json(self):
         return {
-            "id": self.id,
-            "nombre": self.nombre
+            "productId": self.id,
+            "productName": self.nombre
         }
 
