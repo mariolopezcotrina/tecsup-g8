@@ -1,7 +1,7 @@
 productos = [
     {
         "id": 1,
-        "nombre": "Sandwich de Chocolate", 
+        "nombre": "Sandwich de queso gouda", 
         "precio": 10
     },
     {
@@ -11,7 +11,7 @@ productos = [
     },
     {
         "id": 3,
-        "nombre": "Sandwich de Queso", 
+        "nombre": "Sandwich de queso parmesano", 
         "precio": 10
     },
     {
@@ -31,7 +31,7 @@ productos = [
     },
     {
         "id": 7,
-        "nombre": "Sandwich de Pescado", 
+        "nombre": "Sandwich de queso mozzarella", 
         "precio": 10
     },
     {
