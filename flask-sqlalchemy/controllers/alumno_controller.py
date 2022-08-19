@@ -1,8 +1,22 @@
-
+from models.alumno_model import AlumnoModel
 
 class AlumnoController():
-    def get():
-        return "Soy el verbo GET de alumnos"
+
+    def get(self):
+        alumnos = AlumnoModel.query.all()
+        resultado = []
+        for alumnos in alumnos:
+            resultado.append(alumnos.json())
+        return {
+            "succes": True,
+            "message": "Lista de alumnos",
+            "content": resultado
+        }
     
-    def post():
-        return "Soy el verbo POST de alumnos"
+    def post(self, data):
+        resultado = AlumnoModel(data['alumnoNombre'], data['alumnoDni'], data['alumnoEdad']).guardar_db()
+        return {
+            "success": True,
+            "message": "Alumno creado",
+            "content": resultado
+        }
