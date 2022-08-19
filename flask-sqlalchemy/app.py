@@ -7,6 +7,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+@app.before_first_request
+def crear_db():
+    db.create_all(app=app)
+
 @app.route("/")
 def index():
     return "El servidor funciona ❤️‍🔥"
