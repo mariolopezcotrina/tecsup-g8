@@ -38,5 +38,11 @@
 ```
 - Para levantar el servidor en modo debug se usa el comando:
 ```bash
-    flask run --debugger
+    flask --debug run
+```
+
+# Crear una API con flask y sqlalchemy
+- Primero tenemos que instalar las librerias:
+```bash
+    pip install flask-sqlalchemy
 ```
