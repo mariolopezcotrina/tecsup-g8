@@ -8,6 +8,9 @@ class AlumnoModel(db.Model):
     alumnosEdad = db.Column(db.Integer, nullable=False)
     createdAt = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
+    def __str__(self) -> str:
+        return f'{self.alumnoNombre}'
+
     def __init__(self, nombre, dni, edad) -> None:
         self.alumnoNombre = nombre
         self.alumnoDni = dni
@@ -18,17 +21,20 @@ class AlumnoModel(db.Model):
             "alumnoId": self.alumnoId,
             "alumnoNombre": self.alumnoNombre,
             "alumnoDni": self.alumnoDni,
-            "alumnoEdad": self.alumnosEdad,
-            "createdAt": self.createdAt
+            "alumnoEdad": self.alumnosEdad
         }
 
     def guardar_db(self):
         db.session.add(self)
         db.session.commit()
-        return {
-            "alumnoId": self.alumnoId,
-            "alumnoNombre": self.alumnoNombre,
-            "alumnoDni": self.alumnoDni,
-            "alumnoEdad": self.alumnosEdad,
-            "createdAt": self.createdAt
-        }
+        return self.json()
+
+    def actualizar_db(self, nombre=None, dni=None, edad=None):
+        if nombre:
+            self.alumnoNombre = nombre
+        if dni:
+            self.alumnoDni = dni
+        if edad:
+            self.alumnosEdad = edad
+        db.session.commit()
+        return self.json()

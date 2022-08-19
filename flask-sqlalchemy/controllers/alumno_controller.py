@@ -20,3 +20,15 @@ class AlumnoController():
             "message": "Alumno creado",
             "content": resultado
         }
+
+    def update(self, alumno_id, data):
+        alumno = AlumnoModel.query.filter_by(alumnoId=alumno_id).first()
+        resultado = alumno.actualizar_db(data['alumnoNombre'], data['alumnoDni'], data['alumnoEdad'])
+        return {
+            "success": True,
+            "message": "Alumno actualizado",
+            "content": resultado
+        }
+    
+    def delete(self, alumno_id):
+        pass

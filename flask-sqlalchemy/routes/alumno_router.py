@@ -11,3 +11,10 @@ def alumnosAll():
         json_input = request.get_json()
         response = AlumnoController().post(json_input)
         return response
+
+@app.route("/alumno/<int:alumno_id>", methods=['PUT'])
+def alumnoUpdate(alumno_id):
+    if request.method == 'PUT':
+        json_input = request.get_json()
+        response = AlumnoController().update(alumno_id, json_input)
+        return response
