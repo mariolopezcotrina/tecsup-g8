@@ -38,3 +38,8 @@ class AlumnoModel(db.Model):
             self.alumnosEdad = edad
         db.session.commit()
         return self.json()
+
+    def eliminar_db(self):
+        db.session.delete(self)
+        db.session.commit()
+        return self.json()

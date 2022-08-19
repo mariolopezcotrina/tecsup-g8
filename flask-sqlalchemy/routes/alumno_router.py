@@ -12,9 +12,12 @@ def alumnosAll():
         response = AlumnoController().post(json_input)
         return response
 
-@app.route("/alumno/<int:alumno_id>", methods=['PUT'])
+@app.route("/alumno/<int:alumno_id>", methods=['PUT', 'DELETE'])
 def alumnoUpdate(alumno_id):
     if request.method == 'PUT':
         json_input = request.get_json()
         response = AlumnoController().update(alumno_id, json_input)
+        return response
+    else:
+        response = AlumnoController().delete(alumno_id)
         return response
