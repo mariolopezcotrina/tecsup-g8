@@ -22,5 +22,5 @@ class ProductoModel(db.Model):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     categoriaId = Column(Integer, db.ForeignKey('categorias.categoriaId'))
     categoria = db.relationship('CategoriaModel')
-    preferenciaId = Column(Integer, db.ForeingKey('preferencias.preferenciaId'))
+    preferenciaId = Column(Integer, db.ForeignKey('preferencias.preferenciaId'))
     preferencia = db.relationship('PreferenciaModel')
