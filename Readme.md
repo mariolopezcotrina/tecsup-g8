@@ -61,7 +61,7 @@
     pip install flask-marshmallow
     pip install marshmallow-sqlalchemy
 ```
-- Luego de crear nuestros modelos vamos a migrar la base de datos:
+- Luego de crear nuestros modelos vamos a migrar la base de datos (SOLO SE EJECUTA UNA SOLA VEZ):
 ```bash
     flask db init
 ```
