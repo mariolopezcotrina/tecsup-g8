@@ -15,3 +15,10 @@ class UsuarioSchema(Schema):
 
 user_schema = UsuarioSchema()
 users_schema = UsuarioSchema(many=True)
+
+
+class AutenticacionSchema(Schema):
+    usuarioPassword = fields.String(required=True, validate=campo_necesario)
+    usuarioEmail = fields.String(required=True, validate=campo_necesario)
+
+auth_schema = AutenticacionSchema()
