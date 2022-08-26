@@ -5,8 +5,8 @@ from app import db
 import bcrypt
 from flask_jwt_extended import create_access_token
 
-class UsuarioController():
-    def singUp(self, json_input):
+class UsuarioController:
+    def signUp(self, json_input):
         if not json_input:
             return {"message": "Datos de usuario no encontrado"}, 400
         try:
@@ -41,7 +41,7 @@ class UsuarioController():
             return {"message": f'{e}'}, 500
         return result, 201
 
-    def singIn(self, json_input):
+    def signIn(self, json_input):
         if not json_input:
             return {"message": "Datos de usuario no encontrado"}, 400
         try:
@@ -61,7 +61,7 @@ class UsuarioController():
             access_token = create_access_token(identity=user.usuarioId)
         except Exception as e:
             return {"message": f'{e}'}, 500
-            
+
         if passwordHashedDecoded == user.usuarioHash:
             return {"access_token": access_token}, 200
         return {"message": "Credenciales incorrectas"}, 400

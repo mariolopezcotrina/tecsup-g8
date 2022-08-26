@@ -3,9 +3,9 @@ from app.models.categoria_model import CategoriaModel
 from app.schemas.categoria_schema import category_schema, categories_schema
 from marshmallow import ValidationError
 
-class CategoriaController():
+class CategoriaController:
     def getAll(self):
-        categories = CategoriaModel.query.all()
+        categories = CategoriaModel().query.all()
         result = categories_schema.dump(categories)
         return result, 200
 

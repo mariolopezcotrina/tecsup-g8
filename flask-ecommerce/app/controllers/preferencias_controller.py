@@ -4,7 +4,7 @@ from marshmallow import ValidationError
 from app import db
 
 
-class PreferenciaController():
+class PreferenciaController:
     def getAll(self):
         preferences = PreferenciaModel.query.all()
         result = preferences_schema.dump(preferences)
