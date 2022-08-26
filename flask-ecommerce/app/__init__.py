@@ -16,6 +16,7 @@ basicConfig(
     encoding='utf-8',
     handlers=[FileHandler('flask.log'), StreamHandler()]
 )
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
