@@ -38,7 +38,7 @@ python manage.py createsuperuser
 python manage.py startapp products
 ```
 
-## Añadimos esta aplicacion en INSTALLED_APP
+## Añadimos esta aplicacion en INSTALLED_APPS
 ```script
 INSTALLED_APPS = [
     ...,
@@ -51,4 +51,12 @@ INSTALLED_APPS = [
 python manage.py makemigrations
 python manage.py migrate
 python manage.py showmigrations
+```
+
+## Para probar nuestra primera ruta de API añadirmos rest framework a INSTALLED_APPS
+```script
+INSTALLED_APPS = [
+    ...,
+    'rest_framework',
+]
 ```
