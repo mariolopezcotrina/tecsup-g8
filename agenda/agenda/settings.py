@@ -72,11 +72,16 @@ WSGI_APPLICATION = 'agenda.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# https://docs.djangoproject.com/en/4.1/ref/databases/
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'agenda',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'PORT': '3306',
+        'HOST':  '127.0.0.1' # localhost
     }
 }
 
