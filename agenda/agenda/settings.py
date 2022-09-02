@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'gestion',
+    'rest_framework' # sirve para cargar los assets (CSS, JS, HTMLs) que utiliza DRF
 ]
 
 MIDDLEWARE = [

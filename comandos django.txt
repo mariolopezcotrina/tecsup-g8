@@ -3,3 +3,5 @@ python manage.py                        => sirve para utilizar el CLI de django 
 python manage.py startapp <nombre>      => sirve para crear una aplicacion dentro de mi proyecto de Django
 python manage.py runserver              => levanta el proyecto en modo de desarrollo
 python manage.py showmigrations         => mostrara todas las migraciones creadas en nuestro proyecto y las que ya se han ejecutado tendran una [X] 
+python manage.py makemigrations <NOMBRE_APP> --name <NOMBRE_MIGRACION>  => creara una migracion con los nuevos cambios realizados en esa aplicacion con ese determinado nombre
+python manage.py sqlmigrate <NOMBRE_APP> <NUMERO_MIGRACION>  => mostrara el resultado de la migracion en lenguaje SQL
