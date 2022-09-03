@@ -1,8 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.generics import ListAPIView, ListCreateAPIView
-from .serializers import PruebaSerializer
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .serializers import PruebaSerializer, ImportanciaSerializer, ImportanciaSerializerRUD
+from .models import Importancia
 
 # Tipado > indicar a determinadas variables su tipo de dato correspondiente
 @api_view(http_method_names=['GET', 'POST'])
@@ -56,3 +57,52 @@ class PruebaApiView(ListCreateAPIView):
                 'message': 'Error al crear la prueba',
                 'content': data.errors
             }, status=400)
+
+
+class ImportanciasView(ListCreateAPIView):
+    queryset = Importancia.objects.all() # SELECT * FROM importancia;
+    serializer_class = ImportanciaSerializer
+    
+    def get(self, request: Request):
+        instancias = self.get_queryset() 
+        # print(instancias[0].nombre)
+        for instancia in instancias:
+            print(instancia.nombre)
+        # cuando tenemos ya la informacion de la base de datos entonces seran instancias (registros), en cambio cuando tenemos la informacion a guardar en la bd y queremos validar que este correcta lo pasaremos mediante data, instance espera una o varias instancias, data espera informacion
+        data_serializada = self.serializer_class(instance= instancias, many=True)
+
+        return Response ({
+            'message': 'Las instancias son',
+            'content': data_serializada.data
+        })
+    
+    def post(self, request: Request):
+        informacion = request.data # Informacion extraida del body
+        dataASerializar = self.serializer_class(data=informacion)
+
+        dataASerializar.is_valid(raise_exception=True)
+
+        dataASerializar.save() # guarda la informacion en la base de datos
+
+        ###
+
+        # # Primera forma de guardado de la informacion en la base de datos usando el modelo directamente
+        # infoImportancia = {'nombre':'Ejemplo'}
+        # Importancia.objects.create(**infoImportancia) 
+
+        # # Segunda forma
+        # nuevaImportancia = Importancia(**infoImportancia)
+        # nuevaImportancia.save()
+
+        ###
+
+        return Response({
+            'message':'Importancia creada exitosamente',
+            'content': dataASerializar.data
+        }, status=201)
+
+
+# GET, PUT, DELETE
+class ImportanciaView(RetrieveUpdateDestroyAPIView):
+    queryset = Importancia.objects.all()
+    serializer_class=ImportanciaSerializerRUD
