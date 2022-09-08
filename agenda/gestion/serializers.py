@@ -29,7 +29,10 @@ class ImportanciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Importancia # para poder setear todos los fields de mi modelo en el serializador
         # fields > sirve para indicar que columnas del modelo vamos a utilizar en este serializar
-        fields = '__all__'
+        # fields = ['id', 'nombre'] # restingiendo que la columna 'deleted' ya no se va a utilizar 
+        # tambien podemos definir el atributo 'exclude' en el cual se definira las columnas que no se quieran mostrar 
+        exclude = ['deleted']
+        # NOTA: no pueden ir declarados los atributos fields y exclude o es uno, o el otro
 
 
 class ImportanciaSerializerRUD(serializers.ModelSerializer):

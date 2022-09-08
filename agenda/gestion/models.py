@@ -7,6 +7,7 @@ class Importancia(models.Model):
     # Field options (las opciones que le podemos pasar a todos los tipos de datos): https://docs.djangoproject.com/en/4.1/ref/models/fields/#field-options
     id = models.AutoField(primary_key=True, null=False)
     nombre = models.CharField(max_length=45, unique=True)
+    deleted = models.BooleanField(default=False)
 
     class Meta:
         # se usa para cuando trabajamos con herencia para poder pasar metadatos (informacion a la clase padre)
