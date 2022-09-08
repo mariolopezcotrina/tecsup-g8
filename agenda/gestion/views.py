@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import PruebaSerializer, ImportanciaSerializer, ImportanciaSerializerRUD
-from .models import Importancia
+from .serializers import PruebaSerializer, ImportanciaSerializer, ImportanciaSerializerRUD, TareaSerializer
+from .models import Importancia, Tarea
 
 # Tipado > indicar a determinadas variables su tipo de dato correspondiente
 @api_view(http_method_names=['GET', 'POST'])
@@ -170,5 +170,27 @@ class ImportanciaView(RetrieveUpdateDestroyAPIView):
             # retornamos la importacia actualizada
             return Response(data={
                 'message': 'Importancia actualizada exitosamente',
-                'content': self.serializer_class(instance=importanciaActualizada).data  #dataSerializada.data # va a ser la informacion que he pasado al momento de llamar al serializador  
+                'content': self.serializer_class(instance=importanciaActualizada).data  # dataSerializada.data # va a ser la informacion que he pasado al momento de llamar al serializador  
             })
+
+class TareasView(ListCreateAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
+
+    def post(self, request: Request):
+        dataSerializada = self.serializer_class(data=request.data)
+        
+        dataSerializada.is_valid(raise_exception=True)
+        # validar si esa importancia 'existe' (deleted  no es True )
+        # al momento de hacer la validacion del serializador tbn hace la busqueda de las llaves foraneas, es decir, valida que esas FK existan en la bd, es por ello que no tenemos que volver a hacer la busque de la importancia en la bd.
+        importancia = dataSerializada.validated_data.get('importancia')
+        print(importancia.deleted)
+
+        if importancia.deleted == True:
+            return Response(data={
+                'message': 'Importancia no existe'
+            }, status =400)
+
+        return Response(data={
+            'message': 'Tarea creada exitosamente'
+        })

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Importancia
+from .models import Importancia, Tarea
 
 class PruebaSerializer(serializers.Serializer):
     # ahora vamos a definir la informacion que va a llegar y/o salir
@@ -38,4 +38,9 @@ class ImportanciaSerializer(serializers.ModelSerializer):
 class ImportanciaSerializerRUD(serializers.ModelSerializer):
     class Meta:
         model = Importancia 
+        fields = '__all__'
+
+class TareaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tarea
         fields = '__all__'
