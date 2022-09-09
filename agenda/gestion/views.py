@@ -2,8 +2,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import PruebaSerializer, ImportanciaSerializer, ImportanciaSerializerRUD, TareaSerializer
-from .models import Importancia, Tarea
+from .serializers import (  PruebaSerializer, 
+                            ImportanciaSerializer, 
+                            ImportanciaSerializerRUD, 
+                            TareaSerializer, 
+                            TareaConImportanciaSerializer, 
+                            EtiquetaSerializer)
+from .models import Importancia, Tarea, Etiqueta
+# con esto podemos utilizar la conexion actual de nuestro proyecto a la bd, sin la necesidad de crear una nueva conexion y rebalsar el numero de conexiones maximas permitidas
+from django.db import connection
+from datetime import datetime
+from rest_framework import status
+from pytz import utc
 
 # Tipado > indicar a determinadas variables su tipo de dato correspondiente
 @api_view(http_method_names=['GET', 'POST'])
@@ -21,7 +31,6 @@ def endpointInicial(request: Request):
         return Response(data={
             'message':'Se creo la informacion correctamente'
         })
-
 
 class PruebaApiView(ListCreateAPIView):
     # 2 atributos : queryset y serializer_class
@@ -57,7 +66,6 @@ class PruebaApiView(ListCreateAPIView):
                 'message': 'Error al crear la prueba',
                 'content': data.errors
             }, status=400)
-
 
 class ImportanciasView(ListCreateAPIView):
     queryset = Importancia.objects.all() # SELECT * FROM importancia;
@@ -191,6 +199,62 @@ class TareasView(ListCreateAPIView):
                 'message': 'Importancia no existe'
             }, status =400)
 
+        fechaHoy = utc.localize(datetime.now().utcnow())
+        fechaCaducidad = dataSerializada.validated_data.get('fechaCaducidad')
+
+        if fechaHoy > fechaCaducidad:
+            return Response(data={
+                'message': 'No puede haber tareas con fecha de caducidad menor a la actual'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        nuevaTarea = dataSerializada.save()
+
+
         return Response(data={
-            'message': 'Tarea creada exitosamente'
+            'message': 'Tarea creada exitosamente',
+            'content': self.serializer_class(instance=nuevaTarea).data
+
+        }, status= status.HTTP_201_CREATED)
+    
+    def get(self, request: Request):
+        tareas = self.get_queryset()
+        dataSerializada = TareaConImportanciaSerializer(instance=tareas, many=True)
+
+        return Response(data={
+            'message': None,
+            'content': dataSerializada.data
         })
+
+
+class EtiquetasView(ListCreateAPIView):
+    queryset = Etiqueta.objects.all()
+    serializer_class = EtiquetaSerializer
+
+@api_view(http_method_names=['GET'])
+def usandoVista(request):
+    # uso de RAW QUERIES
+    # con la conexion usaremos un cursor
+    cursor = connection.cursor()
+    # ejecutaremos una query sin utilizar los modelos definidos
+    # Con parametros
+    cursor.execute('SELECT * FROM listar_etiquetas_con_la_letra_A where id = %s and deleted= %s', [4,True])
+    # Sin parametros
+    # cursor.execute('SELECT * FROM listar_etiquetas_con_la_letra_A where')
+
+    # indicamos que solo vamos a quere la primera coincidencia
+    # respuesta = cursor.fetchone()
+
+    respuesta = cursor.fetchall()
+    print(respuesta)
+    # las raw queries NUNCA me devolveran los nombres de las columnas, solamente devolveran una tupla con todos sus registros (a su vez cada registro sera tbn una tupla)
+    for registro in respuesta:
+        diccionario = {
+            'id': registro[0],
+            'nombre': registro[1],
+            'estado': bool(registro[2])
+        }
+        print(diccionario)
+
+    return Response(data={
+        'message':'Se uso la vista'
+    })

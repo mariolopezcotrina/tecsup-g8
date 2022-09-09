@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Importancia, Tarea
+from .models import Importancia, Tarea, Etiqueta
 
 class PruebaSerializer(serializers.Serializer):
     # ahora vamos a definir la informacion que va a llegar y/o salir
@@ -43,4 +43,24 @@ class ImportanciaSerializerRUD(serializers.ModelSerializer):
 class TareaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tarea
+        fields = '__all__'
+
+class ImportanciaSinDeletedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Importancia
+        exclude = ['deleted']
+
+class TareaConImportanciaSerializer(serializers.ModelSerializer):
+    # anidamiento de serializadores (nested serializers)
+    # si nosotros queremos utilizar un serializador personalizado con las columnas que queremos mostrar entonces en vez de utilizar el 'depth' podemos llamar al atribut que es la FK y asignarlo otro serializador, ademas, si queremos cambiar el nombre de ese atributo por otro , entonces en el serializador deberemos de colocar el parametro 'source' con el nombre del atributo (FK)
+    importancia = ImportanciaSinDeletedSerializer()
+    class Meta:
+        model = Tarea
+        fields = '__all__'
+        # depth > es el nivel que nosotros queremos ingresar desde este modelo hacia los demas, esto solamente servira para las relaciones donde tengamos la FK < PK, osea solamente a las relaciones en la cual este modelo tenga FK (llaves foraneas)
+        # depth = 1 
+
+class EtiquetaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Etiqueta
         fields = '__all__'
