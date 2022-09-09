@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Importancia, Tarea, Etiqueta
+from .models import Importancia, Tarea, Etiqueta, TareaEtiqueta
 
 class PruebaSerializer(serializers.Serializer):
     # ahora vamos a definir la informacion que va a llegar y/o salir
@@ -50,10 +50,19 @@ class ImportanciaSinDeletedSerializer(serializers.ModelSerializer):
         model = Importancia
         exclude = ['deleted']
 
+class TareaEtiquetaConEtiquetasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TareaEtiqueta
+        exclude= ['tarea','id']
+        depth = 1
+        
+
 class TareaConImportanciaSerializer(serializers.ModelSerializer):
     # anidamiento de serializadores (nested serializers)
     # si nosotros queremos utilizar un serializador personalizado con las columnas que queremos mostrar entonces en vez de utilizar el 'depth' podemos llamar al atribut que es la FK y asignarlo otro serializador, ademas, si queremos cambiar el nombre de ese atributo por otro , entonces en el serializador deberemos de colocar el parametro 'source' con el nombre del atributo (FK)
     importancia = ImportanciaSinDeletedSerializer()
+    etiquetas = TareaEtiquetaConEtiquetasSerializer(many= True, source= 'tareaEtiqueta') # tareaetiqueta_set
+
     class Meta:
         model = Tarea
         fields = '__all__'
@@ -63,4 +72,10 @@ class TareaConImportanciaSerializer(serializers.ModelSerializer):
 class EtiquetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Etiqueta
+        fields = '__all__'
+
+
+class TareaEtiquetaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TareaEtiqueta
         fields = '__all__'

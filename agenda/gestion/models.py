@@ -56,8 +56,9 @@ class Etiqueta(models.Model):
 
 
 class TareaEtiqueta(models.Model):
-    tarea = models.ForeignKey(to=Tarea, db_column='tarea_id', on_delete=models.CASCADE)
-    etiqueta = models.ForeignKey(to=Etiqueta, db_column='etiqueta_id', on_delete=models.CASCADE)
+    # el parametro related_name sirve para poder referenciar desde la clase donde estamos creando la relacion hacia todos sus 'hijos' osea creara un atributo virtual en la clase Tarea para poder acceder a todas sus tareasEtiquetas, si no define su valor predeterminado sera el nombre del modelo con '_set' osea en este caso sera 'tareaetiqueta_set'
+    tarea = models.ForeignKey(to=Tarea, db_column='tarea_id', on_delete=models.CASCADE, related_name='tareaEtiqueta')
+    etiqueta = models.ForeignKey(to=Etiqueta, db_column='etiqueta_id', on_delete=models.CASCADE, related_name='etiquetaTarea')
 
     class Meta:
         db_table='tareas_etiquetas'

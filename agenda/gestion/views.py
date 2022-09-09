@@ -1,14 +1,19 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ( ListAPIView, 
+                                      ListCreateAPIView, 
+                                      RetrieveUpdateDestroyAPIView, 
+                                      CreateAPIView )
 from .serializers import (  PruebaSerializer, 
                             ImportanciaSerializer, 
                             ImportanciaSerializerRUD, 
                             TareaSerializer, 
                             TareaConImportanciaSerializer, 
-                            EtiquetaSerializer)
-from .models import Importancia, Tarea, Etiqueta
+                            EtiquetaSerializer,
+                            TareaEtiquetaSerializer
+                            )
+from .models import Importancia, Tarea, Etiqueta, TareaEtiqueta
 # con esto podemos utilizar la conexion actual de nuestro proyecto a la bd, sin la necesidad de crear una nueva conexion y rebalsar el numero de conexiones maximas permitidas
 from django.db import connection
 from datetime import datetime
@@ -219,16 +224,24 @@ class TareasView(ListCreateAPIView):
     def get(self, request: Request):
         tareas = self.get_queryset()
         dataSerializada = TareaConImportanciaSerializer(instance=tareas, many=True)
-
+        # El lenguaje SQL utilizado desde tarea para devolver sus importancias y sus etiquetas, seria el siguiente:
+        # SELECT * 
+        # FROM tareas as T 
+        # 	INNER JOIN tareas_etiquetas AS TE on T.id = TE.tarea_id
+        #     INNER JOIN etiquetas as E on TE.etiqueta_id = E.id
+        #     INNER JOIN importancias as I on T.importancia_id = I.id;
         return Response(data={
             'message': None,
             'content': dataSerializada.data
         })
 
-
 class EtiquetasView(ListCreateAPIView):
     queryset = Etiqueta.objects.all()
     serializer_class = EtiquetaSerializer
+
+class TareaEtiquetasView(CreateAPIView):
+    queryset = TareaEtiqueta.objects.all()
+    serializer_class = TareaEtiquetaSerializer
 
 @api_view(http_method_names=['GET'])
 def usandoVista(request):

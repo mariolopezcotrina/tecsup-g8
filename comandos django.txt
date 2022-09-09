@@ -6,3 +6,4 @@ python manage.py showmigrations                                         => mostr
 python manage.py makemigrations <NOMBRE_APP> --name <NOMBRE_MIGRACION>  => creara una migracion con los nuevos cambios realizados en esa aplicacion con ese determinado nombre
 python manage.py sqlmigrate <NOMBRE_APP> <NUMERO_MIGRACION>             => mostrara el resultado de la migracion en lenguaje SQL
 python manage.py migrate <NOMBRE_APP>                                   => ejecutara todas las migraciones faltantes en la base de datos
+python manage.py shell                                                  => crea una terminal de python PERO con todas las librerias que estamos usando en el proyecto ya precargadas

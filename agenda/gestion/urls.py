@@ -5,7 +5,8 @@ from .views import ( endpointInicial,
                      ImportanciaView, 
                      TareasView,
                      usandoVista,
-                     EtiquetasView )
+                     EtiquetasView,
+                     TareaEtiquetasView )
 
 # importo absolutamente todo lo que esta contenido en ese archivo inclusive sus importaciones
 # from .views import *
@@ -18,5 +19,6 @@ urlpatterns = [
     path('importancia/<int:pk>', ImportanciaView.as_view()), # primary key
     path('tareas', TareasView.as_view()),
     path('prueba-view-bd', usandoVista),
-    path('etiquetas', EtiquetasView.as_view())
+    path('etiquetas', EtiquetasView.as_view()),
+    path('tarea-etiqueta', TareaEtiquetasView.as_view())
 ]
